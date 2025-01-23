@@ -25,18 +25,18 @@ pip install pandas networkx
 
 ## How to Use
 - **Step 1: Prepare the Dataset**
-- Ensure your raw datasets are correctly formatted and placed in the 1_data_cleaning/datasets directory. 
-- Run merge_script.py to generate the preprocessed flight_network.csv file.
+    - Ensure your raw datasets are correctly formatted and placed in the 1_data_cleaning/datasets directory.
+    - Run merge_script.py to generate the preprocessed flight_network.csv file.
 
 - **Step 2: Run the Main Script**
-- Navigate to the 3_implementation directory and execute the script to compute the maximum flow between a specified source and sink:
+    - Navigate to the 3_implementation directory and execute the script to compute the maximum flow between a specified source and sink:
 
 ```bash 
 python max_flow.py
 ```
 - **Step 3: Review the Results**
-- The maximum flow value will be displayed in the console.
-- The updated dataset with computed flow values will be exported as flight_network_flows.csv. This can be used further for visualizations.
+    - The maximum flow value will be displayed in the console.
+    - The updated dataset with computed flow values will be exported as flight_network_flows.csv. This can be used further for visualizations.
 
 ## Customization
 To customize the source and sink nodes, edit the following lines in max_flow.py:
