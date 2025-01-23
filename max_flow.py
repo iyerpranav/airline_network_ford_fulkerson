@@ -2,6 +2,7 @@
 from collections import deque, defaultdict
 import networkx as nx
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 class Graph:
@@ -20,13 +21,30 @@ class Graph:
             self.graph.add_edge(u, v, weight=cap, residual=cap, identifier=row.Index)
             self.graph.add_edge(v, u, weight=0, residual=0)
 
+    def visualize_network(graph):
+        """Visualizes the network using Matplotlib."""
+        plt.figure(figsize=(10, 6))
+
+        # Layout for better positioning of nodes
+        pos = nx.spring_layout(graph, seed=42)
+
+        # Draw nodes and edges
+        nx.draw(graph, pos, with_labels=True, node_color="skyblue", edge_color="gray", node_size=2000, font_size=10)
+
+        # Draw edge labels (capacities)
+        edge_labels = {(u, v): f"{d['weight']}/{d['residual']}" for u, v, d in graph.edges(data=True)}
+        nx.draw_networkx_edge_labels(graph, pos, edge_labels=edge_labels, font_size=8)
+
+        plt.title("Flow Network Visualization")
+        plt.show()
+
     def get_networkx_graph(self):
         """Return the underlying NetworkX graph."""
         return self.graph
 
 
 class FordFulkerson:
-    """Implements the Ford-Fulkerson algorithm for finding max flow."""
+    """Implements the Ford-Fulkerson algorithm to find max flow."""
 
     def __init__(self, graph):
         self.graph = graph
@@ -96,7 +114,6 @@ class FordFulkerson:
 class csv_handler:
     """this class handles all the interactions with csv files of this script"""
     
-
     def __init__(self):
         self.dataframe = pd.DataFrame()
 
