@@ -41,7 +41,7 @@ class FordFulkerson:
             current = queue.popleft()
 
             for neighbour, edges in self.graph[current].items():
-                for edge_data in edges.values():  # MARK: Modified to access all multi-edges
+                for edge_data in edges.values():  # Modified to access all multi-edges
                     residual = edge_data['residual']
 
                     if neighbour not in visited and residual > 0:
@@ -136,7 +136,7 @@ class CsvHandler:
 if __name__ == "__main__":
     # Load network data
     csv_object = CsvHandler()
-    network_df = csv_object.read_data("testing/data.csv")
+    network_df = csv_object.read_data("b_testing/data.csv")
 
     # Initialize graph and algorithm
     graph_obj = Graph(network_df)
@@ -149,7 +149,7 @@ if __name__ == "__main__":
 
     # Output results
     new_network_df = csv_object.export_flows(ntwrk, network_df)
-    new_network_df.to_csv("testing/data_with_flows.csv", index=False)
+    new_network_df.to_csv("b_testing/data_with_flows.csv", index=False)
 
     print(f"Max Flow: {flow_max}\n")
     if snk in ford_fulkerson.paths:

@@ -6,10 +6,10 @@ airline network generation and ford fulkerson algorithm implementation
 import pandas as pd
 
 #file paths
-AIRLINE_DETAILS_PATH  = "data_cleaning/datasets/airline_details.csv"
-COUNTRY_REGIONS_PATH  = "data_cleaning/datasets/country_regions.csv"
-IATA_ICAO_PATH  = "data_cleaning/datasets/iata_icao.csv"
-AIRCRAFT_CAPACITIES_PATH  = "data_cleaning/datasets/aircraft_capacities.csv"
+AIRLINE_DETAILS_PATH  = "a_data_cleaning/datasets/airline_details.csv"
+COUNTRY_REGIONS_PATH  = "a_data_cleaning/datasets/country_regions.csv"
+IATA_ICAO_PATH  = "a_data_cleaning/datasets/iata_icao.csv"
+AIRCRAFT_CAPACITIES_PATH  = "a_data_cleaning/datasets/aircraft_capacities.csv"
 
 #loading dataframes from csv files
 airline_details_df = pd.read_csv(AIRLINE_DETAILS_PATH)
@@ -74,11 +74,22 @@ cleaned_df = pd.merge(
     right_on='model_code'
 )
 
+# converting flight duration from HH:MM to hours in decimal format
+def convert_to_hours(duration):
+    """converts HH:MM to hrs in decimals"""
+    hours, minutes = map(int, duration.split(':'))
+    return hours + minutes / 60
+
+cleaned_df['Duration'] = cleaned_df['Duration'].apply(convert_to_hours)
+cleaned_df.dropna(subset=['Duration'], inplace=True)
+
+
 #cleaning by removing redundant colums from the merge
 cleaned_df.drop(axis=1, columns=[
     'From', 'To', 'model_code'
 ], inplace=True)
-cleaned_df.dropna()
+
+cleaned_df.dropna(inplace=True)
 
 #renaming columns
 cleaned_df.rename(columns={
@@ -125,4 +136,4 @@ cleaned_df = cleaned_df[[
 ]]
 
 #exporting to csv
-cleaned_df.to_csv('flight_network.csv', sep=',')
+cleaned_df.to_csv('a_data_cleaning/flight_network.csv', sep=',')

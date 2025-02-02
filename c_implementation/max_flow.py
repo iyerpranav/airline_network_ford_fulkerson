@@ -42,7 +42,7 @@ class FordFulkerson:
             current = queue.popleft()
 
             for neighbour, edges in self.graph[current].items():
-                for edge_data in edges.values():  # MARK: Modified to access all multi-edges
+                for edge_data in edges.values():  # Modified to access all multi-edges
                     residual = edge_data['residual']
 
                     if neighbour not in visited and residual > 0:
@@ -89,7 +89,7 @@ class FordFulkerson:
             while current != source:
                 prev, edge_data = parent[current]
 
-                # MARK: Modified to access the specific edge by key
+                # Modified to access the specific edge by key
                 for edge_key, edge_attr in self.graph[prev][current].items():
                     if edge_attr == edge_data:
                         self.graph[prev][current][edge_key]['residual'] -= path_flow
@@ -137,7 +137,7 @@ class CsvHandler:
 if __name__ == "__main__":
     # Load network data
     csv_object = CsvHandler()
-    network_df = csv_object.read_data("3_implementation/flight_network.csv")
+    network_df = csv_object.read_data("a_data_cleaning/flight_network.csv")
 
     # Initialize graph and algorithm
     graph_obj = Graph(network_df)
@@ -145,12 +145,12 @@ if __name__ == "__main__":
     ford_fulkerson = FordFulkerson(ntwrk)
 
     # Compute max flow
-    src, snk = "BOM", "MAA"
+    src, snk = "ATL", "LHR"
     flow_max = ford_fulkerson.compute_max_flow(src, snk)
 
     # Output results
     new_network_df = csv_object.export_flows(ntwrk, network_df)
-    new_network_df.to_csv("3_implementation/flight_network_flows.csv", index=False)
+    new_network_df.to_csv("c_implementation/flight_network_flows.csv", index=False)
 
     print(f"Max Flow: {flow_max}\n")
     if snk in ford_fulkerson.paths:
